@@ -6,11 +6,13 @@ function getPosts (url, after, namefile) {
       return response.json();
     }).then(function(json) {
       var fs = require('fs');
-      fs.writeFile (namefile,  JSON.stringify(json.data.children), function(err) {
-        if (err) throw reject(err);
-          resolve('complete');
-        }
-    );
+      
+      fs.appendFile(namefile, JSON.stringify(json.data.children) , (err) => { 
+        if (err) { 
+          console.log(err); 
+        } 
+      }); 
+
     });
   });
 }
@@ -18,7 +20,7 @@ function getPosts (url, after, namefile) {
 let receipts = new Array();
 
 for (var i = 0; i < 10; i++) {
-  receipts.push(getPosts("facepalm", i*100, 'input'+i+".json"));
+  receipts.push(getPosts("facepalm", i*100, "input.json"));
 }
 
 function good() {
